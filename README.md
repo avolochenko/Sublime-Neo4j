@@ -10,3 +10,4 @@
 * Edit Neo4j.sublime-settings to point to the right API, defaulted to localhost
 * Default query run key is ctrl+r , edit Default.sublime-keymap if you need to change this.
 
+![Alt text](/sublime-text-neo4j.png "Sublime Neo4j Plugin")
