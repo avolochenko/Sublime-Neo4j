@@ -1,0 +1,4 @@
+{
+    "neo4j_api" : "http://localhost:7474/db/data/cypher"
+
+}

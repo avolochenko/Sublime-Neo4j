@@ -1,0 +1,5 @@
+[  
+    {   
+        "keys": ["ctrl+r"], "command": "neo4j"   
+    }  
+]  
