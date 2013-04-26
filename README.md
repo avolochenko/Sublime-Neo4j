@@ -11,4 +11,10 @@
 * Results are displayed in the console (Ctrl+~) to open Console
 * Default query run key is ctrl+r , just select query and hit ctrl+r. Edit Default.sublime-keymap if you need to change this.
 
+# Cypher
+There's really great cypher syntax highlight plugin named Cypher by Jan-Klass Kollhof which can be installed using Package Manager.
+Search for Cypher in Package Manager, also nice install video tutorial by Peter Neubauer http://vimeo.com/64886333
+
+Thanks for looking!
+
 ![Alt text](/sublime-text-neo4j.png "Sublime Neo4j Plugin")
