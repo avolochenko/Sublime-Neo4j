@@ -21,7 +21,10 @@ class Neo4jCommand(sublime_plugin.TextCommand):
       selections = self.view.sel()
       
       #assing text from selection to the query object
-      CYPHER_QUERY["query"] = self.view.substr(selections[0])
+      if self.view.substr(selections[0]):
+        CYPHER_QUERY["query"] = self.view.substr(selections[0])
+      else:
+        CYPHER_QUERY["query"] = self.view.substr(self.view.visible_region())
 
       #convert into proper json
       data = json.dumps(CYPHER_QUERY)
