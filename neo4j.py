@@ -54,10 +54,10 @@ class Neo4jCommand(sublime_plugin.TextCommand):
         response.close()
       
       except urllib.error.HTTPError as h:
-        print('http error: {0} {1}'.format(h.code,h.msg))
+        print('Neo4j: http error - {0} {1}'.format(h.code,h.reason))
 
       except urllib.error.URLError as e:
-        print('url error: {0} {1}'.format(e.message,e.reason))
+        print('Neo4j: url error - {0}'.format(e.reason))
 
 
 # Pretty table class
