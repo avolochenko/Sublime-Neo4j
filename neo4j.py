@@ -1,4 +1,4 @@
-import sublime, sublime_plugin
+import sublime, sublime_plugin, time
 import urllib.request, urllib.error, urllib.parse, json
 
 
@@ -13,7 +13,7 @@ CYPHER_QUERY ={
 class Neo4jCommand(sublime_plugin.TextCommand):
 
     def run(self,  edit):
-
+      start_time = time.time()
       s = sublime.load_settings("Neo4j.sublime-settings")
 
       #grab selections, in this case only one selection
@@ -47,9 +47,9 @@ class Neo4jCommand(sublime_plugin.TextCommand):
             rows[x].append(str(row[x]))
 
           table.append( Column(response_json['columns'][x],rows[x] ) )
-
-
+        end_time = time.time()
         print(Table( *tuple(table) ))
+        print("Neo4j: query took ({0}) seconds".format(end_time-start_time))
 
         response.close()
       
