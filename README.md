@@ -1,4 +1,4 @@
-# Sublime Text 2 plugin: Neo4j
+# Sublime Text 2/3 plugin: Neo4j
 
 * Sublime is one of the best cross platform editors, so i thought why not create a simple Neo4j plugin so here it is.
 * Solves the problem of running Neo4j queries from terminal and not being able to save/manage your query files in one place
