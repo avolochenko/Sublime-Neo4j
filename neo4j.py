@@ -2,8 +2,6 @@ import sublime, sublime_plugin
 import urllib.request, urllib.error, urllib.parse, json
 
 
-s = sublime.load_settings("Neo4j.sublime-settings")
-
 HEADERS = {'content-type': 'application/json'}
 
 CYPHER_QUERY ={
@@ -15,7 +13,9 @@ CYPHER_QUERY ={
 class Neo4jCommand(sublime_plugin.TextCommand):
 
     def run(self,  edit):
-      
+
+      s = sublime.load_settings("Neo4j.sublime-settings")
+
       #grab selections, in this case only one selection
       #sublime supports multi selections
       selections = self.view.sel()
