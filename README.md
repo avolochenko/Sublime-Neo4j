@@ -6,7 +6,7 @@
 
 
 #Installation:
-* Just make a clone of the repo into your ~/Library/Application Support/Sublime Text 2/Packages/Neo4j/ or equivalent on Windows/Linux.
+* Just make a clone of the repo into your ~/Library/Application Support/Sublime Text 3/Packages/Neo4j/ or equivalent on Windows/Linux.
 * Edit Neo4j.sublime-settings to point to the right API, defaulted to localhost
 * Results are displayed in the console (Ctrl+~) to open Console
 * Default query run key is ctrl+r , just select query and hit ctrl+r. Edit Default.sublime-keymap if you need to change this.
