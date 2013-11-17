@@ -21,7 +21,7 @@
 																	"file": "${packages}/Sublime-Neo4j/Neo4j.sublime-settings"
 															},
 															"caption": "Server Settings"
-													},
+													}
 											]
 									}
 							]
