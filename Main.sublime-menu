@@ -1,0 +1,31 @@
+[
+		{
+				"caption": "Preferences",
+				"mnemonic": "n",
+				"id": "preferences",
+				"children":
+				[
+						{
+							"caption": "Package Settings",
+							"mnemonic": "P",
+							"id": "package-settings",
+							"children":
+							[
+									{
+											"caption": "Neo4j",
+											"children":
+											[
+													{
+															"command": "open_file", "args":
+															{
+																	"file": "${packages}/Sublime-Neo4j/Neo4j.sublime-settings"
+															},
+															"caption": "Server Settings"
+													}
+											]
+									}
+							]
+						}
+				]
+		}
+]

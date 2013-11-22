@@ -1,4 +1,4 @@
-# Sublime Text 2 plugin: Neo4j
+# Sublime Text 2/3 plugin: Neo4j
 
 * Sublime is one of the best cross platform editors, so i thought why not create a simple Neo4j plugin so here it is.
 * Solves the problem of running Neo4j queries from terminal and not being able to save/manage your query files in one place
@@ -6,8 +6,8 @@
 
 
 #Installation:
-* Just make a clone of the repo into your ~/Library/Application Support/Sublime Text 2/Packages/Neo4j/ or equivalent on Windows/Linux.
-* Edit Neo4j.sublime-settings to point to the right API, defaulted to localhost
+* Just make a clone of the repo into your ~/Library/Application Support/Sublime Text 3/Packages or equivalent on Windows/Linux.
+* Edit Neo4j.sublime-settings to point to the right API, defaulted to localhost (accessible through the Preferences -> Package Settings -> Neo4j Menu)
 * Results are displayed in the console (Ctrl+~) to open Console
 * Default query run key is ctrl+r , just select query and hit ctrl+r. Edit Default.sublime-keymap if you need to change this.
 

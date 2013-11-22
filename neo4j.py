@@ -1,8 +1,6 @@
-import sublime, sublime_plugin
-import urllib2, json
+import sublime, sublime_plugin, time
+import urllib.request, urllib.error, urllib.parse, json
 
-
-s = sublime.load_settings("Neo4j.sublime-settings")
 
 HEADERS = {'content-type': 'application/json'}
 
@@ -15,7 +13,9 @@ CYPHER_QUERY ={
 class Neo4jCommand(sublime_plugin.TextCommand):
 
     def run(self,  edit):
-      
+      start_time = time.time()
+      s = sublime.load_settings("Neo4j.sublime-settings")
+
       #grab selections, in this case only one selection
       #sublime supports multi selections
       selections = self.view.sel()
@@ -31,9 +31,9 @@ class Neo4jCommand(sublime_plugin.TextCommand):
 
       # POST to neo4j cypher REST api
       try:
-        req = urllib2.Request(s.get("neo4j_api"), data, HEADERS)
-        response = urllib2.urlopen(req)
-        response_json = json.loads(response.read())
+        req = urllib.request.Request(s.get("neo4j_api"), data.encode('utf-8'), HEADERS)
+        response = urllib.request.urlopen(req)
+        response_json = json.loads(response.read().decode('utf-8'))
         response.close()
 
         column_count = len(response_json['columns'])
@@ -47,17 +47,17 @@ class Neo4jCommand(sublime_plugin.TextCommand):
             rows[x].append(str(row[x]))
 
           table.append( Column(response_json['columns'][x],rows[x] ) )
-
-
+        end_time = time.time()
         print(Table( *tuple(table) ))
+        print("Neo4j: query took ({0}) seconds".format(end_time-start_time))
 
         response.close()
       
-      except urllib2.HTTPError, h:
-        print('http error: {0} {1}'.format(h.code,h.msg))
+      except urllib.error.HTTPError as h:
+        print('Neo4j: http error - {0} {1}'.format(h.code,h.reason))
 
-      except urllib2.URLError, e:
-        print('url error: {0} {1}'.format(e.message,e.reason))
+      except urllib.error.URLError as e:
+        print('Neo4j: url error - {0}'.format(e.reason))
 
 
 # Pretty table class
