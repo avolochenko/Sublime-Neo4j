@@ -1,5 +1,5 @@
 import sublime, sublime_plugin, time
-import urllib.request, urllib.error, urllib.parse, json
+import urllib.request, urllib.error, urllib.parse, json, re
 
 
 HEADERS = {'content-type': 'application/json'}
@@ -22,42 +22,51 @@ class Neo4jCommand(sublime_plugin.TextCommand):
       
       #assing text from selection to the query object
       if self.view.substr(selections[0]):
-        CYPHER_QUERY["query"] = self.view.substr(selections[0])
+        text = self.view.substr(selections[0])
       else:
-        CYPHER_QUERY["query"] = self.view.substr(self.view.visible_region())
+        text = self.view.substr(self.view.visible_region())
 
-      #convert into proper json
-      data = json.dumps(CYPHER_QUERY)
+      for query in text.split(";"):
+        if query.strip() == '':
+          continue #Skip trailing queries, and ignore any that had ;; somewhere
 
-      # POST to neo4j cypher REST api
-      try:
-        req = urllib.request.Request(s.get("neo4j_api"), data.encode('utf-8'), HEADERS)
-        response = urllib.request.urlopen(req)
-        response_json = json.loads(response.read().decode('utf-8'))
-        response.close()
+        CYPHER_QUERY["query"] = query
+        #convert into proper json
+        data = json.dumps(CYPHER_QUERY)
 
-        column_count = len(response_json['columns'])
-        Column = Table.Column
-        table = []
-        rows = [[] for _ in range(column_count)]
+        # POST to neo4j cypher REST api
+        try:
+          req = urllib.request.Request(s.get("neo4j_api"), data.encode('utf-8'), HEADERS)
+          response = urllib.request.urlopen(req)
+          response_json = json.loads(response.read().decode('utf-8'))
+          response.close()
+
+          column_count = len(response_json['columns'])
+          Column = Table.Column
+          table = []
+          rows = [[] for _ in range(column_count)]
+
+          if column_count > 0:
+            # parse json document and create a pretty table        
+            for x in range(0,column_count ):
+              for row in response_json['data']:
+                rows[x].append(str(row[x]['data']))
+
+              table.append( Column(response_json['columns'][x],rows[x] ) )
+            end_time = time.time()
+            print(Table( *tuple(table) ))
+          else:
+            end_time = time.time()
+            print("No results returned")
+          print("Neo4j: query took ({0}) seconds".format(end_time-start_time))
+
+          response.close()
         
-        # parse json document and create a pretty table        
-        for x in range(0,column_count ):
-          for row in response_json['data']:
-            rows[x].append(str(row[x]))
+        except urllib.error.HTTPError as h:
+          print('Neo4j: http error - {0} {1}'.format(h.code,h.reason))
 
-          table.append( Column(response_json['columns'][x],rows[x] ) )
-        end_time = time.time()
-        print(Table( *tuple(table) ))
-        print("Neo4j: query took ({0}) seconds".format(end_time-start_time))
-
-        response.close()
-      
-      except urllib.error.HTTPError as h:
-        print('Neo4j: http error - {0} {1}'.format(h.code,h.reason))
-
-      except urllib.error.URLError as e:
-        print('Neo4j: url error - {0}'.format(e.reason))
+        except urllib.error.URLError as e:
+          print('Neo4j: url error - {0}'.format(e.reason))
 
 
 # Pretty table class
