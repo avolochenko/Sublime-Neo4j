@@ -26,6 +26,13 @@ class Neo4jCommand(sublime_plugin.TextCommand):
       else:
         text = self.view.substr(self.view.visible_region())
 
+      text_stripped = []
+      for line in text.split("\n"):
+        if not line.startswith("//"):
+          text_stripped.append(line)
+
+      text = '\n'.join(text_stripped)
+
       for query in text.split(";"):
         if query.strip() == '':
           continue #Skip trailing queries, and ignore any that had ;; somewhere
