@@ -59,8 +59,13 @@ class Neo4jCommand(sublime_plugin.TextCommand):
               for row in response_json['data']:
                 if isinstance( row[x], int):
                   rows[x].append(str(row[x]))
+                elif isinstance( row[x], str):
+                  rows[x].append(str(row[x]))
                 else:
-                  rows[x].append(str(row[x]['data']))
+                  rows[x].append(str(row[x].get('metadata','').get('id','')) + ' ' + 
+                    str(row[x].get('metadata','').get('type','')) + 
+                    str(row[x].get('metadata','').get('labels','')) + ' ' + 
+                    str(row[x]['data']))
 
               table.append( Column(response_json['columns'][x],rows[x] ) )
             end_time = time.time()
