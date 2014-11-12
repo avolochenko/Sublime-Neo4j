@@ -57,7 +57,10 @@ class Neo4jCommand(sublime_plugin.TextCommand):
             # parse json document and create a pretty table        
             for x in range(0,column_count ):
               for row in response_json['data']:
-                rows[x].append(str(row[x]['data']))
+                if isinstance( row[x], int):
+                  rows[x].append(str(row[x]))
+                else:
+                  rows[x].append(str(row[x]['data']))
 
               table.append( Column(response_json['columns'][x],rows[x] ) )
             end_time = time.time()
