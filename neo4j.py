@@ -1,8 +1,5 @@
 import sublime, sublime_plugin, time
-import urllib.request, urllib.error, urllib.parse, json, re
-
-
-HEADERS = {'content-type': 'application/json'}
+import urllib.request, urllib.error, urllib.parse, json, re, base64
 
 CYPHER_QUERY ={
     "query" : "",
@@ -15,7 +12,8 @@ class Neo4jCommand(sublime_plugin.TextCommand):
     def run(self,  edit):
       start_time = time.time()
       s = sublime.load_settings("Neo4j.sublime-settings")
-
+      to_encode = s.get("neo4j_user") + ':' + s.get("neo4j_password")
+      HEADERS = {'content-type': 'application/json', 'Authorization' : base64.b64encode(to_encode.encode('utf-8'))}
       #grab selections, in this case only one selection
       #sublime supports multi selections
       selections = self.view.sel()
